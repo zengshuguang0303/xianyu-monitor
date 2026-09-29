@@ -1,0 +1,44 @@
+name: Build XianyuMon deb
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Theos
+        run: |
+          export THEOS=$HOME/theos
+          git clone --recursive --depth 1 https://github.com/theos/theos.git $THEOS
+          echo "THEOS=$THEOS" >> $GITHUB_ENV
+          echo "$THEOS/bin" >> $GITHUB_PATH
+
+      - name: Install ldid + dpkg
+        run: |
+          brew install ldid dpkg || true
+
+      - name: Download iOS SDK (rootless 15.0+)
+        run: |
+          mkdir -p $THEOS/sdks
+          cd /tmp
+          git clone --depth 1 https://github.com/theos/sdks.git /tmp/sdks
+          cp -r /tmp/sdks/iPhoneOS*.sdk $THEOS/sdks/ || true
+          ls -la $THEOS/sdks
+
+      - name: Build package
+        run: |
+          make package FINALPACKAGE=1
+          ls -la packages/
+
+      - name: Upload deb artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: xianyumon-deb
+          path: packages/*.deb
+          if-no-files-found: error
