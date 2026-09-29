@@ -123,14 +123,14 @@ static NSArray *kDefaultCityAliases(void) {
         if ([v isKindOfClass:[NSNumber class]]) return [v integerValue];
         if ([v isKindOfClass:[NSString class]]) {
             NSString *s = [(NSString *)v stringByReplacingOccurrencesOfString:@"人想要" withString:@""];
-            return [[s stringByTrimmingCharactersInSet:[NSCharacterSet nonDigitCharacterSet]] integerValue];
+            return [[s stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] integerValue];
         }
     }
     // 有些结构放在推荐理由里，形如 "5人想要"
     for (NSString *k in @[@"recommendReason", @"label", @"subTitle", @"tag"]) {
         NSString *s = [self str:it[k]];
         if ([s containsString:@"人想要"]) {
-            return [[s stringByTrimmingCharactersInSet:[NSCharacterSet nonDigitCharacterSet]] integerValue];
+            return [[s stringByTrimmingCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]] integerValue];
         }
     }
     return 0;
