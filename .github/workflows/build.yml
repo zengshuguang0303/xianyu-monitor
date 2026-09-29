@@ -27,12 +27,14 @@ jobs:
         run: |
           mkdir -p $THEOS/sdks
           cd /tmp
+          # official Theos SDK mirror
           git clone --depth 1 https://github.com/theos/sdks.git /tmp/sdks
           cp -r /tmp/sdks/iPhoneOS*.sdk $THEOS/sdks/ || true
           ls -la $THEOS/sdks
 
       - name: Build package
         run: |
+          chmod 0755 layout/DEBIAN/postinst
           make package FINALPACKAGE=1
           ls -la packages/
 
