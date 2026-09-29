@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>city</key>
+    <string>长沙</string>
+    <key>cityAliases</key>
+    <array>
+        <string>长沙</string>
+        <string>岳麓</string>
+        <string>雨花</string>
+        <string>天心</string>
+        <string>芙蓉</string>
+        <string>开福</string>
+        <string>望城</string>
+        <string>星沙</string>
+        <string>宁乡</string>
+        <string>浏阳</string>
+    </array>
+    <key>minWant</key>
+    <integer>3</integer>
+    <key>keywords</key>
+    <array/>
+</dict>
+</plist>
