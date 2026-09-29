@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "[XianyuMon] installed. Log: /var/mobile/Library/Preferences/xianyumon.log"
+exit 0
