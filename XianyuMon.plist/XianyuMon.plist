@@ -1,0 +1,9 @@
+{
+    Filter = {
+        Bundles = (
+            "com.taobao.idlefish",
+            "Xianyu",
+            "com.taobao.fleamarket"
+        );
+    };
+}
