@@ -1,4 +1,4 @@
-name: Build XianyuMon deb
+name: Build XianyuMon deb (roothide)
 
 on:
   workflow_dispatch:
@@ -12,35 +12,36 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install Theos
+      - name: Install roothide Theos
         run: |
           export THEOS=$HOME/theos
-          git clone --recursive --depth 1 https://github.com/theos/theos.git $THEOS
+          # 用 roothide 官方的 theos 仓库（关键！不是标准 theos）
+          git clone --recursive --depth 1 https://github.com/roothide/theos.git $THEOS
           echo "THEOS=$THEOS" >> $GITHUB_ENV
           echo "$THEOS/bin" >> $GITHUB_PATH
 
-      - name: Install ldid + dpkg
+      - name: Install dependencies
         run: |
-          brew install ldid dpkg || true
+          brew install ldid dpkg make || true
 
-      - name: Download iOS SDK (rootless 15.0+)
+      - name: Download iOS SDK
         run: |
           mkdir -p $THEOS/sdks
-          cd /tmp
-          # official Theos SDK mirror
           git clone --depth 1 https://github.com/theos/sdks.git /tmp/sdks
-          cp -r /tmp/sdks/iPhoneOS*.sdk $THEOS/sdks/ || true
+          cp -r /tmp/sdks/iPhoneOS*.sdk $THEOS/sdks/ 2>/dev/null || true
           ls -la $THEOS/sdks
 
-      - name: Build package
+      - name: Fix postinst permissions
+        run: chmod 0755 layout/DEBIAN/postinst
+
+      - name: Build package (roothide scheme)
         run: |
-          chmod 0755 layout/DEBIAN/postinst
-          make package FINALPACKAGE=1
+          make package THEOS_PACKAGE_SCHEME=roothide FINALPACKAGE=1
           ls -la packages/
 
       - name: Upload deb artifact
         uses: actions/upload-artifact@v4
         with:
-          name: xianyumon-deb
+          name: xianyumon-deb-roothide
           path: packages/*.deb
           if-no-files-found: error

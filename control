@@ -1,6 +1,6 @@
 Package: com.minis.xianyumon
 Name: XianyuMon
-Version: 0.1.0
+Version: 0.2.0
 Architecture: iphoneos-arm64
 Description: Monitor Xianyu local second-hand phone recycling listings, notify on match.
 Maintainer: minis

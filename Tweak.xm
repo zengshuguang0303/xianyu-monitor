@@ -32,6 +32,7 @@ static void xy_debug(NSString *s) {
 + (void)load {
     static dispatch_once_t once;
     dispatch_once(&once, ^{
+        // 覆盖真实实现类 + 抽象类
         for (NSString *cn in @[@"__NSCFURLSession", @"NSURLSession"]) {
             Class cls = NSClassFromString(cn);
             if (cls) {
@@ -96,7 +97,7 @@ static void xy_debug(NSString *s) {
 
 @end
 
-#pragma mark - 启动请求通知权限
+#pragma mark - 启动请求通知权限 + 越狱隐藏
 
 %hook UIApplication
 
